@@ -1,0 +1,39 @@
+image: node:12.22.10
+
+stages:
+  - install
+  - test
+  - build
+  #- deploy
+
+install:
+  stage: install
+  script: 
+    - npm i
+    
+cache:
+    paths:
+      - node_modules/
+
+tests:
+  stage: test
+  dependencies:
+    - install
+  script:
+    - npm run test  
+
+build:
+  stage: build
+  dependencies:
+    - install
+  script:
+    - npm run builds  
+
+#deploy:
+  #stage: deploy
+#  dependencies:
+#- build
+#  script:
+#- npm i -g @nestjs/cli
+#- npm i
+#- nest run start  

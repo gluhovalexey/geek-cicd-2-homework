@@ -20,12 +20,11 @@ tests:
   dependencies:
     - install
   script:
-    - npm run test  
+    - npm run test
 
-build:
-  stage: build
-  dependencies:
-    - install
+docker_build: #TODO
+  image: 
+  stage: build  
   script:
     - npm run builds  
 

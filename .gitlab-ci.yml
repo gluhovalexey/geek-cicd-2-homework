@@ -1,5 +1,10 @@
 image: node:12.22.10
 
+variables:
+  DOCKER_IMAGE_NAME: "nest-api" 
+  DOCKER_TAG: ${CI_COMMIT_REF_SLUG}
+  DOCKER_REPO: ${DOCKERHUB_USERNAME}
+
 stages:
   - install
   - test
@@ -8,7 +13,7 @@ stages:
 
 install:
   stage: install
-  script: 
+  script:
     - npm i
     
 cache:
@@ -20,14 +25,29 @@ tests:
   dependencies:
     - install
   script:
-    - npm run test
+    - npm run test  
 
-docker_build: #TODO
-  image: 
-  stage: build  
+# build:
+#   stage: build
+#   dependencies:
+#     - install
+#   script:
+#     - npm run build
+
+docker-build:
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  before_script:
+    - docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_TOKEN}
+  stage: build
   script:
-    - npm run builds  
-
+    - echo $USER
+    - docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} .
+    - docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} ${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:${DOCKER_TAG}  
+    - docker run ${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:${DOCKER_TAG} 
+    - docker push ${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:${DOCKER_TAG}
+    - echo "The image was succesfully pushed:" ${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:${DOCKER_TAG}
 #deploy:
   #stage: deploy
 #  dependencies:

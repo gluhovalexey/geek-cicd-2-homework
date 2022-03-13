@@ -1,11 +1,11 @@
-FROM node:12.22.10-alpine
+FROM node:12.22.10
 
-ARG PROJECT_DIR="/opt/nest-api"
+ARG PROJECT_DIR="nest-api"
 
-WORKDIR $PROJECT_DIR
+ADD . /$PROJECT_DIR
+WORKDIR /$PROJECT_DIR
 
-RUN npm install
+RUN npm i
+RUN npm run build
 
-COPY . .
-
-CMD ["npm run start:dev"]
+ENTRYPOINT [ "./nest-api" ]

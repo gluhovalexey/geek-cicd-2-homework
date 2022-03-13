@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { DatabaseService } from './database.service'; 
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Connection } from 'mongoose';
 
 @Module({
   imports: [

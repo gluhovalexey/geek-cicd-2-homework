@@ -14,7 +14,5 @@ import { Connection } from 'mongoose';
 
 export class DatabaseService {
 
-    constructor(@InjectConnection() private readonly connection: Connection) {
-        console.log('CONNECTION', this.connection)
-    }
+    constructor() {}
 }

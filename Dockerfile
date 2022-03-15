@@ -7,5 +7,3 @@ WORKDIR /$PROJECT_DIR
 
 RUN npm i
 RUN npm run build
-
-ENTRYPOINT [ "./nest-api" ]
